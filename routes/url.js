@@ -1,8 +1,9 @@
 const express = require('express');
-const urlRoutes = require('./url');
 
 const app = express.Router();
 
-app.use('/url', urlRoutes);
+app.get('/', (req, res) => {
+  res.send('Testing url path');
+});
 
 module.exports = app;
