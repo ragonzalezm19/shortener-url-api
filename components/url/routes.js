@@ -1,9 +1,8 @@
 const express = require('express');
+const { createUrl } = require('./controller');
 
 const app = express.Router();
 
-app.get('/', (req, res) => {
-  res.send('Testing url path');
-});
+app.post('/', createUrl);
 
 module.exports = app;
