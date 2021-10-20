@@ -7,10 +7,10 @@ const { nanoid } = require('nanoid/async');
 const createUrl = async (req, res) => {
   if (!req.body.url) return res.status(400).json({ error: 'url is required' });
 
-  const alias = req.body.alias ? req.body.alias.toLowerCase() : await nanoid();
+  const alias = req.body.alias ? req.body.alias : await nanoid();
 
   const response = await urlModel.createUrl({
-    alias: alias,
+    alias: alias.toLowerCase(),
     url: req.body.url,
   });
 
