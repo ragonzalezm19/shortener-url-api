@@ -4,4 +4,11 @@ const createUrl = async (url) => {
   return userDao.createUrl(url);
 };
 
-module.exports = { createUrl };
+const getUrl = async (alias) => {
+  return userDao.getUrl(alias);
+};
+
+module.exports = {
+  createUrl,
+  getUrl,
+};

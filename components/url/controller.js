@@ -14,15 +14,42 @@ const createUrl = async (req, res) => {
     url: req.body.url,
   });
 
-  if (response.responseStatus.code === 0) {
-    return res.send(urlDto.single(response.data, null));
-  } else {
-    return res
-      .status(response.responseStatus.code)
-      .send({ message: response.responseStatus.message });
+  switch (response.codError) {
+    case 0:
+      return res.send(
+        urlDto.apiResponse(response.data, 0, 'New short url was created')
+      );
+    case 409:
+      return res
+        .status(409)
+        .send(urlDto.apiResponse(null, 409, response.msgError));
+    case 500:
+      return res
+        .status(500)
+        .send(urlDto.apiResponse(null, 500, response.msgError));
+  }
+};
+
+const getUrl = async (req, res) => {
+  const alias = req.params.alias;
+
+  const response = await urlModel.getUrl(alias);
+
+  switch (response.codError) {
+    case 0:
+      return res.send(urlDto.apiResponse(response.data, 0, 'Url founded'));
+    case 404:
+      return res
+        .status(404)
+        .send(urlDto.apiResponse(null, 404, response.msgError));
+    default:
+      return res
+        .status(500)
+        .send(urlDto.apiResponse(null, 500, response.msgError));
   }
 };
 
 module.exports = {
   createUrl,
+  getUrl,
 };
